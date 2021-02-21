@@ -15,7 +15,7 @@ import {Picker} from '@react-native-picker/picker';
 import ImagePicker from 'react-native-image-crop-picker';
 
 
-class AddUser extends Component {
+class EditUser extends Component {
   constructor(props) {
     super(props);
 
@@ -192,4 +192,4 @@ class AddUser extends Component {
   }
 }
 
-export default AddUser;
+export default EditUser;

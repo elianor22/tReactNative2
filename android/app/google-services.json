@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "494265154912",
+    "firebase_url": "https://nugas-43c6f-default-rtdb.firebaseio.com",
+    "project_id": "nugas-43c6f",
+    "storage_bucket": "nugas-43c6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494265154912:android:13327bd565c62b6d25f205",
+        "android_client_info": {
+          "package_name": "com.dataterus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494265154912-b6fl0f7l78j5irjcobar7rrjdl32sr49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4n4VBSFv9ctcxBALLwdzYX7x3t3_VJnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "494265154912-b6fl0f7l78j5irjcobar7rrjdl32sr49.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
