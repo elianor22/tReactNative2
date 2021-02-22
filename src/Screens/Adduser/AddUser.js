@@ -84,7 +84,7 @@ class AddUser extends Component {
       .catch((e) => {
         console.log(e);
         Alert.alert(e.message ? e.message : e);
-          });
+      });
   }
   renderImage(image) {
     return (
@@ -101,6 +101,10 @@ class AddUser extends Component {
     }
 
     return this.renderImage(image);
+  }
+
+  sendData =()=>{
+    Alert.alert('data terkirim')
   }
 
   render() {
@@ -128,6 +132,7 @@ class AddUser extends Component {
             onValueChange={(itemValue, itemIndex) =>
               this.setState({gender: itemValue})
             }>
+            <Picker.Item label="Pilih Gender " />
             <Picker.Item label="Male" value="Male" />
             <Picker.Item label="Female" value="Female" />
           </Picker>
@@ -147,6 +152,7 @@ class AddUser extends Component {
             onValueChange={(itemValue, itemIndex) =>
               this.setState({status: itemValue})
             }>
+            <Picker.Item label="Pilih Status" />
             <Picker.Item label="Single" value="Single" />
             <Picker.Item label="Married" value="Married" />
           </Picker>
@@ -174,16 +180,14 @@ class AddUser extends Component {
           <TouchableOpacity
             onPress={() => this.pickSingleWithCamera(true)}
             style={styles.button}>
-            <Text style={styles.text}>
-              Open Camera
-            </Text>
+            <Text style={styles.text}>Open Camera</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.pickSingle(true)}
             style={styles.button}>
             <Text style={styles.text}>Select from galleries</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.registerUser}>
+          <TouchableOpacity style={styles.button} onPress={this.sendData}>
             <Text style={styles.buttonTitle}>Send Data</Text>
           </TouchableOpacity>
         </KeyboardAwareScrollView>

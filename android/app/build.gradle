@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-apply plugin: 'com.google.gms.google-services'
+// apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 
 /**
@@ -130,7 +130,7 @@ android {
 
     defaultConfig {
         multiDexEnabled true
-          vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.datauser"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -183,7 +183,8 @@ android {
 }
 
 dependencies {
-     implementation project(path: ':@react-native-picker_picker')
+
+    implementation project(path: ':@react-native-picker_picker')
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
 
     implementation 'androidx.multidex:multidex:2.0.1'
