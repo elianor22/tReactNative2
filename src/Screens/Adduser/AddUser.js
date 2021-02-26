@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {
   Alert,
   Image,
@@ -8,11 +8,16 @@ import {
   View,
   Label,
   ScrollView,
+  Button
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './Styles';
 import {Picker} from '@react-native-picker/picker';
 import ImagePicker from 'react-native-image-crop-picker';
+import firestore from '@react-native-firebase/firestore';
+import Location from '../Location/Location'
+import RNLocation from 'react-native-location';
+
 
 
 class AddUser extends Component {
@@ -27,8 +32,71 @@ class AddUser extends Component {
       address: '',
       image: null,
       images: null,
+      viewLocation: [],
     };
+    RNLocation.configure({
+      distanceFilter: 5.0,
+    });
   }
+
+
+   
+    // untuk mendapatkan lokasi saaat ini 
+      permissionHandle = async () => {
+        console.log('here');
+
+        permission = await RNLocation.requestPermission({
+          ios: 'whenInUse',
+          android: {
+            detail: 'coarse',
+            rationale: {
+              title: 'We need to access your location',
+              message: 'We use your location to show where you are on the map',
+              buttonPositive: 'OK',
+              buttonNegative: 'Cancel',
+            },
+          },
+        });
+        console.log(permission);
+
+        let location;
+        if (!permission) {
+          permission = await RNLocation.requestPermission({
+            ios: 'whenInUse',
+            android: {
+              detail: 'coarse',
+              rationale: {
+                title: 'We need to access your location',
+                message:
+                  'We use your location to show where you are on the map',
+                buttonPositive: 'OK',
+                buttonNegative: 'Cancel',
+              },
+            },
+          });
+          console.log(permission);
+          location = await RNLocation.getLatestLocation({timeout: 100});
+          console.log(
+            location,
+            location.longitude,
+            location.latitude,
+            
+          );
+        } else {
+          console.log('Here 7');
+          location = await RNLocation.getLatestLocation({timeout: 100});
+          console.log(
+            location,
+            location.longitude,
+            location.latitude,
+            
+          );
+          this.setState({viewLocation: location});
+        }
+      }
+    
+ 
+    // memngambil gambar dengan kamera
 
   pickSingleWithCamera(cropping, mediaType = 'photo') {
     ImagePicker.openCamera({
@@ -52,6 +120,8 @@ class AddUser extends Component {
       })
       .catch((e) => alert(e));
   }
+
+  // mengambil gambar lewat gallery
   pickSingle(cropit, circular = false, mediaType) {
     ImagePicker.openPicker({
       width: 500,
@@ -86,6 +156,8 @@ class AddUser extends Component {
         Alert.alert(e.message ? e.message : e);
       });
   }
+
+  // render gambar 
   renderImage(image) {
     return (
       <Image
@@ -95,6 +167,7 @@ class AddUser extends Component {
     );
   }
 
+  // render semua gambar ke view
   renderAsset(image) {
     if (image.mime && image.mime.toLowerCase().indexOf('video/') !== -1) {
       return this.renderVideo(image);
@@ -104,7 +177,28 @@ class AddUser extends Component {
   }
 
   sendData =()=>{
-    Alert.alert('data terkirim')
+  firestore()
+    .collection('Users')
+
+    .add({
+      name: this.state.name,
+      age: this.state.umur,
+      gender: this.state.gender,
+      status: this.state.status,
+      address: this.state.address,
+      location:
+        `${this.state.viewLocation.latitude}` +
+        ' ; ' +
+        `${this.state.viewLocation.longitude}`,
+    })
+    .then(() => {
+      
+      console.log('User added!');
+      Alert.alert('User berhasil di tambahkan');
+    });
+    
+
+  console.log(JSON.stringify(this.state))
   }
 
   render() {
@@ -141,7 +235,7 @@ class AddUser extends Component {
             style={styles.input}
             placeholderTextColor="#aaaaaa"
             placeholder="Umur"
-            onChangeText={(password) => this.setState({password: password})}
+            onChangeText={(umur) => this.setState({umur: umur})}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
           />
@@ -175,6 +269,22 @@ class AddUser extends Component {
                   ))
                 : null}
             </ScrollView>
+          </View>
+          <Text style={styles.text}>Lokasi sekarang</Text>
+
+          <View style={styles.container}>
+            <Text>Latitude: {this.state.viewLocation.latitude} </Text>
+            <Text>Longitude:{this.state.viewLocation.longitude} </Text>
+
+            <View
+              style={{
+                marginTop: 10,
+                padding: 10,
+                borderRadius: 10,
+                width: '40%',
+              }}>
+              <Button title="Get Location" onPress={this.permissionHandle} />
+            </View>
           </View>
 
           <TouchableOpacity
